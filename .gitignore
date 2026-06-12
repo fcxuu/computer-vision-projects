@@ -1,0 +1,45 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Virtual env
+venv/
+.venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Results / trained weights (keep small demo weights, ignore large training outputs)
+results/
+checkpoints/
+*.pth
+*.pt
+runs/
+logs/
+*.log
+
+# Big data
+data/
+datasets/
+*.zip
+*.tar.gz
+*.tar
+
+# Keep the demo Fashion-MNIST trained model (small enough to keep in repo)
+# (we don't ignore trained_model.pkl)
