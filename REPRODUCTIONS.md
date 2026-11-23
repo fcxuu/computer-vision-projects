@@ -5,3 +5,4 @@
 | 任务 | 复现入口 | 实测结果 |
 |---|---|---|
 | Fashion-MNIST 三层分类器 | [说明及产物](01-image-classification/fashion-mnist-3layer/reproduction/) | 7 组全数据集试验，官方测试准确率 88.60%（8,860 / 10,000） |
+| MNIST MLP 与 CNN | [说明及产物](01-image-classification/nndl-mnist-mlp-cnn/reproduction/) | 6 组全数据集试验，最佳 MLP 98.57%，最佳 CNN 99.09% |

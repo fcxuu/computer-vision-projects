@@ -26,29 +26,28 @@ def digest(path):
         return hashlib.file_digest(stream, "md5").hexdigest()
 
 
-def checked_file(root, name):
+def checked_file(root, name, base_url=BASE_URL, digests=DIGESTS):
     path = root / name
-    if path.exists() and digest(path) == DIGESTS[name]:
+    if path.exists() and digest(path) == digests[name]:
         return path
     root.mkdir(parents=True, exist_ok=True)
     with tempfile.NamedTemporaryFile(dir=root, delete=False) as stream:
         partial = root / stream.name
         try:
-            with urllib.request.urlopen(f"{BASE_URL}/{name}", timeout=60) as source:
+            with urllib.request.urlopen(f"{base_url}/{name}", timeout=60) as source:
                 shutil.copyfileobj(source, stream)
             stream.flush()
-            if digest(partial) != DIGESTS[name]:
-                raise ValueError(f"Unexpected Fashion-MNIST checksum for {name}")
+            if digest(partial) != digests[name]:
+                raise ValueError(f"Unexpected IDX checksum for {name}")
             partial.replace(path)
         finally:
             partial.unlink(missing_ok=True)
     return path
 
 
-def load(root, split):
-    count = {"train": 60_000, "t10k": 10_000}[split]
-    images = checked_file(root, f"{split}-images-idx3-ubyte.gz")
-    labels = checked_file(root, f"{split}-labels-idx1-ubyte.gz")
+def read_idx(root, split, count, base_url, digests, categories):
+    images = checked_file(root, f"{split}-images-idx3-ubyte.gz", base_url, digests)
+    labels = checked_file(root, f"{split}-labels-idx1-ubyte.gz", base_url, digests)
     with gzip.open(images, "rb") as stream:
         if struct.unpack(">4I", stream.read(16)) != (2051, count, 28, 28):
             raise ValueError(f"Invalid IDX image header in {images}")
@@ -57,9 +56,14 @@ def load(root, split):
         if struct.unpack(">2I", stream.read(8)) != (2049, count):
             raise ValueError(f"Invalid IDX label header in {labels}")
         targets = np.frombuffer(stream.read(), dtype=np.uint8).astype(np.int64)
-    if len(targets) != count or np.any(targets >= len(LABELS)):
+    if len(targets) != count or np.any(targets >= categories):
         raise ValueError(f"Invalid labels in {labels}")
     return pixels.astype(np.float32) / 255.0, targets
+
+
+def load(root, split):
+    count = {"train": 60_000, "t10k": 10_000}[split]
+    return read_idx(root, split, count, BASE_URL, DIGESTS, len(LABELS))
 
 
 def stratified_split(labels, seed):

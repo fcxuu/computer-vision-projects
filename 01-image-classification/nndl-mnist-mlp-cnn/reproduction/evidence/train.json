@@ -1,0 +1,157 @@
+{
+  "python": "3.12.10",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "numpy": "2.2.6",
+  "seed": 309,
+  "batch": 128,
+  "epochs": 15,
+  "patience": 0,
+  "train_samples": 50000,
+  "validation_samples": 10000,
+  "idx_md5": {
+    "train-images-idx3-ubyte.gz": "f68b3c2dcbeaaa9fbdd348bbdeb94873",
+    "train-labels-idx1-ubyte.gz": "d53e105ee54ea40749a09fcbcd1e9432",
+    "t10k-images-idx3-ubyte.gz": "9fb629c4189551a2d022fa330f9573f3",
+    "t10k-labels-idx1-ubyte.gz": "ec29112dd5afa0611ce80d1b7f02629c"
+  },
+  "trials": {
+    "mlp_plain": {
+      "config": {
+        "network": "mlp",
+        "augmented": false,
+        "lr": 0.04,
+        "l2": 0.0001,
+        "momentum": 0.9,
+        "schedule": "exponential"
+      },
+      "activation": "relu",
+      "epochs_run": 15,
+      "parameters": 477010,
+      "best": {
+        "epoch": 15,
+        "lr": 0.01068167804508825,
+        "train_ce": 0.025784108900136108,
+        "train_accuracy": 0.99546,
+        "val_ce": 0.07515902317526398,
+        "val_accuracy": 0.9772
+      },
+      "seconds": 10.77,
+      "mlp_width": 600
+    },
+    "mlp_affine": {
+      "config": {
+        "network": "mlp",
+        "augmented": true,
+        "lr": 0.04,
+        "l2": 0.0001,
+        "momentum": 0.9,
+        "schedule": "exponential"
+      },
+      "activation": "relu",
+      "epochs_run": 15,
+      "parameters": 477010,
+      "best": {
+        "epoch": 15,
+        "lr": 0.01068167804508825,
+        "train_ce": 0.07578298185077463,
+        "train_accuracy": 0.97876,
+        "val_ce": 0.05778885570740497,
+        "val_accuracy": 0.9843
+      },
+      "seconds": 24.62,
+      "mlp_width": 600
+    },
+    "mlp_sgd": {
+      "config": {
+        "network": "mlp",
+        "augmented": true,
+        "lr": 0.12,
+        "l2": 0.0001,
+        "momentum": 0.0,
+        "schedule": "exponential"
+      },
+      "activation": "relu",
+      "epochs_run": 15,
+      "parameters": 477010,
+      "best": {
+        "epoch": 15,
+        "lr": 0.032045034135264744,
+        "train_ce": 0.1431439162432278,
+        "train_accuracy": 0.96004,
+        "val_ce": 0.09249607398412023,
+        "val_accuracy": 0.9758
+      },
+      "seconds": 24.56,
+      "mlp_width": 600
+    },
+    "mlp_step": {
+      "config": {
+        "network": "mlp",
+        "augmented": true,
+        "lr": 0.02,
+        "l2": 0.0001,
+        "momentum": 0.9,
+        "schedule": "step"
+      },
+      "activation": "relu",
+      "epochs_run": 15,
+      "parameters": 477010,
+      "best": {
+        "epoch": 15,
+        "lr": 0.0072,
+        "train_ce": 0.10018108418452533,
+        "train_accuracy": 0.97234,
+        "val_ce": 0.06877310336558062,
+        "val_accuracy": 0.9814
+      },
+      "seconds": 25.19,
+      "mlp_width": 600
+    },
+    "cnn_plain": {
+      "config": {
+        "network": "cnn",
+        "augmented": false,
+        "lr": 0.02,
+        "l2": 1e-05,
+        "momentum": 0.9,
+        "schedule": "multistep"
+      },
+      "activation": "relu",
+      "epochs_run": 15,
+      "parameters": 171158,
+      "best": {
+        "epoch": 15,
+        "lr": 0.0032,
+        "train_ce": 0.003017962614072516,
+        "train_accuracy": 0.99974,
+        "val_ce": 0.060393286349128494,
+        "val_accuracy": 0.9869
+      },
+      "seconds": 157.04,
+      "mlp_width": 600
+    },
+    "cnn_affine": {
+      "config": {
+        "network": "cnn",
+        "augmented": true,
+        "lr": 0.02,
+        "l2": 1e-05,
+        "momentum": 0.9,
+        "schedule": "multistep"
+      },
+      "activation": "relu",
+      "epochs_run": 15,
+      "parameters": 171158,
+      "best": {
+        "epoch": 9,
+        "lr": 0.008,
+        "train_ce": 0.03801230370675798,
+        "train_accuracy": 0.98754,
+        "val_ce": 0.036526725469804254,
+        "val_accuracy": 0.9904
+      },
+      "seconds": 174.0,
+      "mlp_width": 600
+    }
+  }
+}
