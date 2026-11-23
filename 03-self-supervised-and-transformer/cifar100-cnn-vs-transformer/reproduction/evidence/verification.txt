@@ -1,0 +1,5 @@
+cnn 871,732 trainable parameters; finite gradient
+vit 861,060 trainable parameters; finite gradient
+Parameter gap 1.239%
+cpu CutMix replaced 25/77 pixels; targets follow the replacement permutation
+mps CutMix replaced 25/77 pixels; targets follow the replacement permutation

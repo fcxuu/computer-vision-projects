@@ -1,0 +1,11 @@
+{
+  "loss": 2.1734998046875,
+  "accuracy": 0.4365,
+  "top5": 0.7415,
+  "correct": 4365,
+  "top5_correct": 7415,
+  "samples": 10000,
+  "variant": "vit",
+  "setting": "adamw_5e-4",
+  "epoch": 20
+}
