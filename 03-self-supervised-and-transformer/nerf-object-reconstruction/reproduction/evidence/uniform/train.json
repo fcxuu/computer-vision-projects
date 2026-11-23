@@ -1,0 +1,26 @@
+{
+  "config": {
+    "steps": 7000,
+    "rays": 384,
+    "n_coarse": 48,
+    "n_fine": 32,
+    "layers": 6,
+    "width": 96,
+    "frequencies_xyz": 8,
+    "frequencies_dir": 3,
+    "lr": 0.0005,
+    "seed": 2020,
+    "validate_every": 1000,
+    "chunk": 1024,
+    "device": "mps"
+  },
+  "best_step": 5000,
+  "best_val_psnr": 17.569785096261178,
+  "seconds": 939.4481857079081,
+  "scene_digest": "bfb32bfbf3f03198c1db737cc39b929c37a741bb1061f0a2582f299667fb1105",
+  "framework_commit": "9c47e83c5a2c9736c9e770cc993237ce3e2667ed",
+  "parameters": 143336,
+  "training_views": 50,
+  "validation_views": 8,
+  "objective": "sum of coarse and fine RGB reconstruction MSE"
+}

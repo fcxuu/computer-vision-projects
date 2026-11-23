@@ -13,4 +13,4 @@
 | VOC2007 Faster R-CNN 与 YOLOv3（期中任务 2） | [说明及产物](02-object-detection/voc-faster-rcnn-yolov3/reproduction/voc/) | 官方测试 mAP50 分别为 63.05% 与 81.57%，含 4 张 RPN 和 3 张外部图对照 |
 | CIFAR-100 自监督与监督学习（期末任务 1） | [说明及产物](03-self-supervised-and-transformer/cifar100-self-vs-supervised/reproduction/) | 官方测试 Top-1 为随机初始化 57.49%、ImageNet 冻结线性 51.40%、最佳 SimCLR 冻结线性 30.43% |
 | CIFAR-100 CNN 与 Transformer（期末任务 2） | [说明及产物](03-self-supervised-and-transformer/cifar100-cnn-vs-transformer/reproduction/) | 参数量差 1.24%，验证选型后的官方测试 Top-1 为 CNN 59.09%、ViT 46.20% |
-| NeRF 物体重建与新视角合成（期末任务 3） | 待续 | 已核对公开素材与许可，暂停在数据下载阶段 |
+| NeRF 物体重建与新视角合成（期末任务 3） | [说明及产物](03-self-supervised-and-transformer/nerf-object-reconstruction/reproduction/) | COLMAP 注册 67 / 67 张。留出视角 17.57 dB PSNR、0.4819 SSIM，含 90 帧环绕视频 |
