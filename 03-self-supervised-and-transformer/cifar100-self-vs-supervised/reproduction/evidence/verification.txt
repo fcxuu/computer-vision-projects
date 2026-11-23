@@ -1,0 +1,3 @@
+cpu NT-Xent paired 0.026595, swapped 5.026596
+mps NT-Xent paired 0.026595, swapped 5.026595
+Data pipeline includes tail batch and generates matching seeded, distinct consecutive views

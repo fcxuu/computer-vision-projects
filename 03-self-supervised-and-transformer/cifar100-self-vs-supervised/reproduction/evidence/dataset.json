@@ -1,0 +1,11 @@
+{
+  "training": 45000,
+  "validation": 5000,
+  "validation_per_class": 50,
+  "official_test": 10000,
+  "seed": 2020,
+  "training_validation_overlap": 0,
+  "subsets_nested": true,
+  "temperature_pair_same_ordered_ids": true,
+  "official_archive_md5": "eb9058c3a382ffc7106e4002c42a8d85"
+}

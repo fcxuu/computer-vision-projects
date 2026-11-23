@@ -1,0 +1,30 @@
+{
+  "seed": 2020,
+  "size": 64,
+  "batch": 128,
+  "device": "mps",
+  "torch": "2.9.1",
+  "python": "3.12.10",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "source": "scratch",
+  "protocol": "end_to_end",
+  "lr": 0.001,
+  "optimizer": "AdamW",
+  "weight_decay": 0.0001,
+  "epochs": 18,
+  "n_train": 45000,
+  "n_validation": 5000,
+  "trainable_parameters": 11227812,
+  "frozen_fingerprint_before": null,
+  "frozen_fingerprint_after": null,
+  "best": {
+    "epoch": 18,
+    "learning_rate": 2.744420102401807e-05,
+    "train_loss": 0.10977207124233246,
+    "train_accuracy": 0.9767777919769287,
+    "val_loss": 1.9442931640625,
+    "val_accuracy": 0.5798,
+    "val_top5": 0.829
+  },
+  "seconds": 716.3791120001115
+}

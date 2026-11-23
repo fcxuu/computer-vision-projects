@@ -1,0 +1,30 @@
+{
+  "seed": 2020,
+  "size": 64,
+  "batch": 128,
+  "device": "mps",
+  "torch": "2.9.1",
+  "python": "3.12.10",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "source": "simclr_20k_t05",
+  "protocol": "linear",
+  "lr": 0.004,
+  "optimizer": "AdamW",
+  "weight_decay": 0.0001,
+  "epochs": 18,
+  "n_train": 45000,
+  "n_validation": 5000,
+  "trainable_parameters": 51300,
+  "frozen_fingerprint_before": "52528805fe7c7e48b2f0f29668426a34641d6a4258868816703f74a1c11d2703",
+  "frozen_fingerprint_after": "52528805fe7c7e48b2f0f29668426a34641d6a4258868816703f74a1c11d2703",
+  "best": {
+    "epoch": 18,
+    "learning_rate": 0.00010977680409607228,
+    "train_loss": 2.934218168258667,
+    "train_accuracy": 0.28895556926727295,
+    "val_loss": 3.1223451171875,
+    "val_accuracy": 0.2572,
+    "val_top5": 0.5194
+  },
+  "seconds": 21.895980458939448
+}

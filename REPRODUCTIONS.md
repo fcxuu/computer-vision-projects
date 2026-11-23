@@ -9,3 +9,4 @@
 | CIFAR-10 VGG-A、BatchNorm 与损失景观 | [说明及产物](01-image-classification/nndl-cifar10-vgg/reproduction/) | 全宽 VGG-A 83.79%，VGG-A + BN 88.79%，VGG-A + Dropout 82.75% |
 | CUB-200-2011 鸟类识别（期中任务 1） | [说明及产物](02-object-detection/voc-faster-rcnn-yolov3/reproduction/cub/) | ImageNet 微调 60.77% 对随机初始化 24.77%（官方测试 Top-1） |
 | VOC2007 Faster R-CNN 与 YOLOv3（期中任务 2） | [说明及产物](02-object-detection/voc-faster-rcnn-yolov3/reproduction/voc/) | 官方测试 mAP50 分别为 63.05% 与 81.57%，含 4 张 RPN 和 3 张外部图对照 |
+| CIFAR-100 自监督与监督学习（期末任务 1） | [说明及产物](03-self-supervised-and-transformer/cifar100-self-vs-supervised/reproduction/) | 官方测试 Top-1 为随机初始化 57.49%、ImageNet 冻结线性 51.40%、最佳 SimCLR 冻结线性 30.43% |

@@ -1,0 +1,11 @@
+{
+  "loss": 1.9428423828125,
+  "accuracy": 0.5749,
+  "top5": 0.8323,
+  "correct": 5749,
+  "top5_correct": 8323,
+  "samples": 10000,
+  "source": "scratch",
+  "epoch": 18,
+  "size": 64
+}
