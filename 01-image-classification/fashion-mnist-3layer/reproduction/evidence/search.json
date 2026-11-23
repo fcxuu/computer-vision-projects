@@ -1,0 +1,153 @@
+{
+  "python": "3.12.10",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "numpy": "2.2.6",
+  "seed": 23,
+  "epochs": 36,
+  "batch": 256,
+  "lr_decay": 0.97,
+  "train_size": 54000,
+  "validation_size": 6000,
+  "official_md5": {
+    "train-images-idx3-ubyte.gz": "8d4fb7e6c68d591d4c3dfef9ec88bf0d",
+    "train-labels-idx1-ubyte.gz": "25c81989df183df01b3e8a0aad5dffbe",
+    "t10k-images-idx3-ubyte.gz": "bef4ecab320f06d8554ea6380940ec79",
+    "t10k-labels-idx1-ubyte.gz": "bb300cfdad3c16e7a12a480ee83cd310"
+  },
+  "trials": [
+    {
+      "name": "baseline",
+      "configuration": {
+        "hidden": 256,
+        "lr": 0.12,
+        "l2": 0.0001,
+        "activation": "relu"
+      },
+      "best": {
+        "epoch": 34,
+        "learning_rate": 0.0439185989122187,
+        "train_ce": 0.2686564294320566,
+        "val_ce": 0.31780831909179685,
+        "train_accuracy": 0.9054444444444445,
+        "val_accuracy": 0.8865,
+        "train_objective": 0.29938678123774354
+      },
+      "seconds": 9.46
+    },
+    {
+      "name": "lower_lr",
+      "configuration": {
+        "hidden": 256,
+        "lr": 0.06,
+        "l2": 0.0001,
+        "activation": "relu"
+      },
+      "best": {
+        "epoch": 33,
+        "learning_rate": 0.022638453047535412,
+        "train_ce": 0.32887381913926866,
+        "val_ce": 0.3595987040201823,
+        "train_accuracy": 0.8861296296296296,
+        "val_accuracy": 0.8735,
+        "train_objective": 0.35782646427717474
+      },
+      "seconds": 8.31
+    },
+    {
+      "name": "higher_lr",
+      "configuration": {
+        "hidden": 256,
+        "lr": 0.24,
+        "l2": 0.0001,
+        "activation": "relu"
+      },
+      "best": {
+        "epoch": 34,
+        "learning_rate": 0.0878371978244374,
+        "train_ce": 0.2174546568128798,
+        "val_ce": 0.29344612630208333,
+        "train_accuracy": 0.923962962962963,
+        "val_accuracy": 0.8958333333333334,
+        "train_objective": 0.2514492532644007
+      },
+      "seconds": 7.91
+    },
+    {
+      "name": "narrow",
+      "configuration": {
+        "hidden": 128,
+        "lr": 0.12,
+        "l2": 0.0001,
+        "activation": "relu"
+      },
+      "best": {
+        "epoch": 36,
+        "learning_rate": 0.04132300971650657,
+        "train_ce": 0.27649266278302226,
+        "val_ce": 0.3240645548502604,
+        "train_accuracy": 0.9014814814814814,
+        "val_accuracy": 0.8845,
+        "train_objective": 0.2956123054579452
+      },
+      "seconds": 5.12
+    },
+    {
+      "name": "wider",
+      "configuration": {
+        "hidden": 512,
+        "lr": 0.12,
+        "l2": 0.0001,
+        "activation": "relu"
+      },
+      "best": {
+        "epoch": 36,
+        "learning_rate": 0.04132300971650657,
+        "train_ce": 0.25245499617965134,
+        "val_ce": 0.30697673034667966,
+        "train_accuracy": 0.9121666666666667,
+        "val_accuracy": 0.8895,
+        "train_objective": 0.3064909987858048
+      },
+      "seconds": 20.85
+    },
+    {
+      "name": "higher_l2",
+      "configuration": {
+        "hidden": 256,
+        "lr": 0.12,
+        "l2": 0.001,
+        "activation": "relu"
+      },
+      "best": {
+        "epoch": 34,
+        "learning_rate": 0.0439185989122187,
+        "train_ce": 0.294241364090531,
+        "val_ce": 0.3312633819580078,
+        "train_accuracy": 0.8978518518518519,
+        "val_accuracy": 0.8845,
+        "train_objective": 0.43796590992697965
+      },
+      "seconds": 9.43
+    },
+    {
+      "name": "sigmoid",
+      "configuration": {
+        "hidden": 256,
+        "lr": 0.12,
+        "l2": 0.0001,
+        "activation": "sigmoid"
+      },
+      "best": {
+        "epoch": 34,
+        "learning_rate": 0.0439185989122187,
+        "train_ce": 0.40354090203179255,
+        "val_ce": 0.41452880859375,
+        "train_accuracy": 0.8587592592592592,
+        "val_accuracy": 0.8493333333333334,
+        "train_objective": 0.42706380244923964
+      },
+      "seconds": 24.01
+    }
+  ],
+  "selected": "higher_lr"
+}
