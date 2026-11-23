@@ -1,0 +1,30 @@
+{
+  "variant": "vgg_a",
+  "width": 0.5,
+  "lr": 0.001,
+  "batch": 128,
+  "epochs": 20,
+  "schedule": "cosine",
+  "optimizer": "adamw",
+  "weight_decay": 0.0001,
+  "activation": "relu",
+  "loss": "cross_entropy",
+  "seed": 2020,
+  "device": "mps",
+  "torch": "2.9.1",
+  "python": "3.12.10",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "train_samples": 45000,
+  "validation_samples": 5000,
+  "parameters": 2440394,
+  "best": {
+    "epoch": 20,
+    "lr": 2.603271310838255e-05,
+    "train_ce": 0.3370195095486111,
+    "train_accuracy": 0.8818,
+    "val_ce": 0.520408154296875,
+    "val_accuracy": 0.8294
+  },
+  "steps": 7040,
+  "seconds": 202.9311637079809
+}

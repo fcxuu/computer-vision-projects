@@ -1,0 +1,9 @@
+{
+  "variant": "vgg_a",
+  "width": 1.0,
+  "epoch": 20,
+  "test_ce": 0.507595751953125,
+  "test_accuracy": 0.8379,
+  "test_correct": 8379,
+  "test_samples": 10000
+}
