@@ -1,0 +1,29 @@
+{
+  "variant": "faster_rcnn",
+  "size": 256,
+  "seed": 2020,
+  "batch": 4,
+  "val_batch": 8,
+  "epochs": 5,
+  "initial_lr": 0.003,
+  "optimizer": "SGD",
+  "momentum": 0.9,
+  "weight_decay": 0.0001,
+  "n_train": 2501,
+  "n_validation": 2510,
+  "best": {
+    "epoch": 5,
+    "lr": 0.0004221507830157,
+    "train_loss": 0.5559638937393793,
+    "val_loss": 0.9685149052228585,
+    "val_map50": 0.6116224231510607,
+    "fit_seconds": 363.7791939158924,
+    "val_seconds": 204.9195509168785
+  },
+  "total_parameters": 19052004,
+  "trainable_parameters": 18259516,
+  "device": "cpu",
+  "torch": "2.9.1",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "elapsed_seconds": 2967.549370917026
+}

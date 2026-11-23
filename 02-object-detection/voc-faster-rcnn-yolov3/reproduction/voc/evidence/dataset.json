@@ -1,0 +1,80 @@
+{
+  "train": {
+    "images": 2501,
+    "positives": {
+      "aeroplane": 151,
+      "bicycle": 176,
+      "bird": 243,
+      "boat": 140,
+      "bottle": 253,
+      "bus": 115,
+      "car": 625,
+      "cat": 186,
+      "chair": 400,
+      "cow": 136,
+      "diningtable": 103,
+      "dog": 253,
+      "horse": 182,
+      "motorbike": 167,
+      "person": 2358,
+      "pottedplant": 248,
+      "sheep": 130,
+      "sofa": 124,
+      "train": 145,
+      "tvmonitor": 166
+    }
+  },
+  "val": {
+    "images": 2510,
+    "positives": {
+      "aeroplane": 155,
+      "bicycle": 177,
+      "bird": 243,
+      "boat": 150,
+      "bottle": 252,
+      "bus": 114,
+      "car": 625,
+      "cat": 190,
+      "chair": 398,
+      "cow": 123,
+      "diningtable": 112,
+      "dog": 257,
+      "horse": 180,
+      "motorbike": 172,
+      "person": 2332,
+      "pottedplant": 266,
+      "sheep": 127,
+      "sofa": 124,
+      "train": 152,
+      "tvmonitor": 158
+    }
+  },
+  "test": {
+    "images": 4952,
+    "positives": {
+      "aeroplane": 285,
+      "bicycle": 337,
+      "bird": 459,
+      "boat": 263,
+      "bottle": 469,
+      "bus": 213,
+      "car": 1201,
+      "cat": 358,
+      "chair": 756,
+      "cow": 244,
+      "diningtable": 206,
+      "dog": 489,
+      "horse": 348,
+      "motorbike": 325,
+      "person": 4528,
+      "pottedplant": 480,
+      "sheep": 242,
+      "sofa": 239,
+      "train": 282,
+      "tvmonitor": 308
+    }
+  },
+  "train_val_identical_photo_digests": 0,
+  "train_test_identical_photo_digests": 0,
+  "val_test_identical_photo_digests": 0
+}

@@ -1,0 +1,1 @@
+VOC checks passed: letterbox/inverse, clipping, tensor types, AP, difficult, duplicate and wrong-class detections.
