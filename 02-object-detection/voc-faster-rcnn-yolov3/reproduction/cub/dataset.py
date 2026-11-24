@@ -130,15 +130,26 @@ def split_training(samples: list[Sample], seed: int) -> tuple[list[Sample], list
     return train, val
 
 
-def image_tensors(samples: list[Sample], size: int) -> tuple[torch.Tensor, torch.Tensor]:
+def image_tensors(
+    samples: list[Sample], size: int, resize_mode: str = "square"
+) -> tuple[torch.Tensor, torch.Tensor]:
     """Return EXIF-corrected RGB images as square uint8 CPU tensors and class IDs."""
     if size <= 0:
         raise ValueError("Image size must be positive")
+    if resize_mode not in {"square", "letterbox"}:
+        raise ValueError(f"Unknown image resize mode: {resize_mode!r}")
     images = torch.empty((len(samples), 3, size, size), dtype=torch.uint8, device="cpu")
     labels = torch.tensor([sample.label for sample in samples], dtype=torch.int64, device="cpu")
     for index, sample in enumerate(samples):
         with Image.open(sample.path) as image:
             rgb = ImageOps.exif_transpose(image).convert("RGB")
-            resized = rgb.resize((size, size), Image.Resampling.BILINEAR)
+            if resize_mode == "letterbox":
+                factor = size / max(rgb.size)
+                width, height = (max(1, round(edge * factor)) for edge in rgb.size)
+                content = rgb.resize((width, height), Image.Resampling.BILINEAR)
+                resized = Image.new("RGB", (size, size), (124, 116, 104))
+                resized.paste(content, ((size - width) // 2, (size - height) // 2))
+            else:
+                resized = rgb.resize((size, size), Image.Resampling.BILINEAR)
             images[index].copy_(torch.from_numpy(np.array(resized)).permute(2, 0, 1))
     return images, labels

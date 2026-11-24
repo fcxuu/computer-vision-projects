@@ -21,3 +21,4 @@
 |---|---|---|
 | CIFAR-100 SimCLR | 官方测试 Top-1 从第一轮最好的 30.43% 提升至 **39.47%** | [训练、对照与验收](03-self-supervised-and-transformer/cifar100-self-vs-supervised/reproduction/optimization/) |
 | CIFAR-100 CNN 与 ViT | 相同 CutMix 设置延长至 40 轮，CNN 测试 Top-1 59.09% → **63.27%**，ViT 46.20% → **51.26%** | [训练、对照与报告](03-self-supervised-and-transformer/cifar100-cnn-vs-transformer/reproduction/optimization/) |
+| CUB-200-2011 鸟类识别 | 同一划分的测试 Top-1 **60.77% → 68.26%**，宏平均召回率 61.10% → 68.51% | [训练、对照与报告](02-object-detection/voc-faster-rcnn-yolov3/reproduction/cub/optimization/) |

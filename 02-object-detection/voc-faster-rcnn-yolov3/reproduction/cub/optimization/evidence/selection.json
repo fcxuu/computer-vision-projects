@@ -1,0 +1,19 @@
+{
+  "selected": "flip",
+  "validation": {
+    "plain": {
+      "accuracy": 0.6618464961067854,
+      "top5_accuracy": 0.8498331479421579,
+      "loss": 1.8022124191810345,
+      "samples": 899,
+      "epoch": 24
+    },
+    "flip": {
+      "accuracy": 0.6685205784204672,
+      "top5_accuracy": 0.8464961067853171,
+      "loss": 1.7687476373487903,
+      "samples": 899,
+      "epoch": 24
+    }
+  }
+}

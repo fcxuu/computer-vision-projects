@@ -62,12 +62,13 @@ def save_json(path, data):
     partial.replace(path)
 
 
-def sample_cache(root, samples, size, device):
+def sample_cache(root, samples, size, device, resize_mode="square"):
     ids = np.asarray([sample.id for sample in samples], dtype="<i4")
     sha = hashlib.sha256(ids.tobytes()).hexdigest()[:20]
     folder = root / "tensors"
     folder.mkdir(exist_ok=True)
-    cache = folder / f"rgb-{size}-{sha}.pt"
+    mode = "" if resize_mode == "square" else f"-{resize_mode}"
+    cache = folder / f"rgb-{size}{mode}-{sha}.pt"
     if cache.exists():
         payload = torch.load(cache, map_location="cpu", weights_only=True)
         x, y = payload["pixels"], payload["labels"]
@@ -77,7 +78,7 @@ def sample_cache(root, samples, size, device):
         ):
             raise ValueError(f"Cached image shape or labels do not match {cache}")
     else:
-        x, y = image_tensors(samples, size)
+        x, y = image_tensors(samples, size, resize_mode)
         partial = cache.with_suffix(".tmp")
         torch.save({"pixels": x, "labels": y}, partial)
         partial.replace(cache)
@@ -110,13 +111,15 @@ def batches(data, batch, rng=None):
 
 
 @torch.inference_mode()
-def evaluate(model, data, batch):
+def evaluate(model, data, batch, flip_tta=False):
     model.eval()
     device = data[1].device
     totals = torch.zeros(3, device=device)
     labels, predictions = [], []
     for images, target in batches(data, batch):
         logits = model(images)
+        if flip_tta:
+            logits = (logits + model(images.flip(-1))) / 2
         top5 = logits.topk(5, dim=1).indices
         hits = top5 == target[:, None]
         totals += torch.stack((
@@ -139,11 +142,11 @@ def evaluate(model, data, batch):
     }, confusion
 
 
-def save_checkpoint(path, model, trial, size, epoch):
+def save_checkpoint(path, model, trial, size, epoch, *, resize_mode="square", seed=SEED):
     partial = path.with_suffix(".tmp")
     torch.save({
         "model": {key: tensor.detach().cpu() for key, tensor in model.state_dict().items()},
-        "trial": trial, "image_size": size, "epoch": epoch,
+        "trial": trial, "image_size": size, "epoch": epoch, "resize_mode": resize_mode, "seed": seed,
     }, partial)
     partial.replace(path)
 
@@ -163,8 +166,8 @@ def train(args, source, device):
     config = TRIALS[args.trial]
     args.out.mkdir(parents=True, exist_ok=False)
     training, validation = split_training(source, args.seed)
-    train_data = sample_cache(args.data, training, args.image_size, device)
-    val_data = sample_cache(args.data, validation, args.image_size, device)
+    train_data = sample_cache(args.data, training, args.image_size, device, args.resize_mode)
+    val_data = sample_cache(args.data, validation, args.image_size, device, args.resize_mode)
     np.savez_compressed(args.out / "split.npz",
                         train=[x.id for x in training], validation=[x.id for x in validation])
     torch.hub.set_dir(str(args.data / "torch-hub"))
@@ -197,7 +200,7 @@ def train(args, source, device):
             for pixels, targets in batches(train_data, args.batch, rng):
                 optimizer.zero_grad(set_to_none=True)
                 logits = model(pixels)
-                loss = F.cross_entropy(logits, targets)
+                loss = F.cross_entropy(logits, targets, label_smoothing=args.label_smoothing)
                 loss.backward()
                 optimizer.step()
                 totals += torch.stack((loss.detach() * len(targets),
@@ -221,7 +224,8 @@ def train(args, source, device):
             logs.flush()
             if best is None or score(record) > score(best):
                 best = record
-                save_checkpoint(args.out / "best.pt", model, args.trial, args.image_size, epoch)
+                save_checkpoint(args.out / "best.pt", model, args.trial, args.image_size, epoch,
+                                resize_mode=args.resize_mode, seed=args.seed)
             scheduler.step()
             print(f"{args.trial:15s} {epoch:02}/{args.epochs} "
                   f"train CE {train_loss:.4f} val CE {metrics['loss']:.4f} "
@@ -236,7 +240,8 @@ def train(args, source, device):
         "trial": args.trial, "initialization": config.initialization, "body_lr": config.body_lr,
         "head_lr": config.head_lr, "warmup": config.warmup, "optimizer": "AdamW",
         "weight_decay": 0.0001, "epochs": args.epochs, "batch": args.batch, "seed": args.seed,
-        "image_size": args.image_size, "num_classes": N_CLASSES, "n_train": len(training),
+        "image_size": args.image_size, "resize_mode": args.resize_mode, "label_smoothing": args.label_smoothing,
+        "num_classes": N_CLASSES, "n_train": len(training),
         "n_val": len(validation), "n_parameters": sum(param.numel() for param in model.parameters()),
         "best": best, "device": str(device), "torch": str(torch.__version__),
         "python": platform.python_version(), "seconds": time.perf_counter() - started,
@@ -245,10 +250,17 @@ def train(args, source, device):
 
 def test(args, source, device):
     model, saved = checkpoint(args.checkpoint, device)
-    samples = [sample for sample in source if not sample.official_train]
-    data = sample_cache(args.data, samples, saved["image_size"], device)
-    result, confusion = evaluate(model, data, args.batch)
+    split = getattr(args, "command", "test")
+    if split == "validate":
+        _, samples = split_training(source, saved.get("seed", SEED))
+    else:
+        samples = [sample for sample in source if not sample.official_train]
+    resize_mode = saved.get("resize_mode", "square")
+    flip_tta = getattr(args, "flip_tta", False)
+    data = sample_cache(args.data, samples, saved["image_size"], device, resize_mode)
+    result, confusion = evaluate(model, data, args.batch, flip_tta=flip_tta)
     result.update({"trial": saved["trial"], "epoch": saved["epoch"], "image_size": saved["image_size"],
+                   "resize_mode": resize_mode, "flip_tta": flip_tta, "split": split,
                    "macro_recall": float((confusion.diagonal() / confusion.sum(axis=1)).mean()),
                    "confusion": confusion.tolist()})
     if args.metrics:
@@ -269,15 +281,21 @@ def main():
     fit.add_argument("--epochs", type=int, default=16)
     fit.add_argument("--seed", type=int, default=SEED)
     fit.add_argument("--batch", type=int, default=48)
-    assess = sub.add_parser("test")
-    assess.add_argument("--checkpoint", required=True, type=Path)
-    assess.add_argument("--metrics", type=Path)
-    assess.add_argument("--batch", type=int, default=48)
+    fit.add_argument("--resize-mode", choices=("square", "letterbox"), default="square")
+    fit.add_argument("--label-smoothing", type=float, default=0.0)
+    for split in ("test", "validate"):
+        assess = sub.add_parser(split)
+        assess.add_argument("--checkpoint", required=True, type=Path)
+        assess.add_argument("--metrics", type=Path)
+        assess.add_argument("--batch", type=int, default=48)
+        assess.add_argument("--flip-tta", action="store_true", help="Average original and horizontally flipped logits")
     args = parser.parse_args()
     if args.batch < 2:
         parser.error("Batch size must be at least two")
     if args.command == "train" and (args.epochs < 1 or args.image_size < 32 or args.seed < 0):
         parser.error("Image size must be at least 32, epochs positive and seed nonnegative")
+    if args.command == "train" and not 0.0 <= args.label_smoothing < 1.0:
+        parser.error("Label smoothing must lie in [0, 1)")
     torch.set_num_threads(4)
     device = select_device(args.device)
     source = read_samples(prepare(args.data))
