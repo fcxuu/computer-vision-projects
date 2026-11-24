@@ -1,0 +1,20 @@
+{
+  "seed": 2020,
+  "size": 64,
+  "batch": 128,
+  "device": "mps",
+  "torch": "2.9.1",
+  "python": "3.12.10",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "variant": "45k",
+  "pretrain_samples": 45000,
+  "temperature": 0.2,
+  "steps": 3600,
+  "lr": 0.0004,
+  "optimizer": "AdamW",
+  "initial_steps": 4800,
+  "total_pretrain_steps": 8400,
+  "weight_decay": 0.0001,
+  "seconds": 807.5418052079622,
+  "backbone_digest": "6fd4cd8bc47f74f357ec4f3240b1fe53ddb9cdde70e6200e051e4c1267426926"
+}

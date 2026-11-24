@@ -14,3 +14,9 @@
 | CIFAR-100 自监督与监督学习（期末任务 1） | [说明及产物](03-self-supervised-and-transformer/cifar100-self-vs-supervised/reproduction/) | 官方测试 Top-1 为随机初始化 57.49%、ImageNet 冻结线性 51.40%、最佳 SimCLR 冻结线性 30.43% |
 | CIFAR-100 CNN 与 Transformer（期末任务 2） | [说明及产物](03-self-supervised-and-transformer/cifar100-cnn-vs-transformer/reproduction/) | 参数量差 1.24%，验证选型后的官方测试 Top-1 为 CNN 59.09%、ViT 46.20% |
 | NeRF 物体重建与新视角合成（期末任务 3） | [说明及产物](03-self-supervised-and-transformer/nerf-object-reconstruction/reproduction/) | COLMAP 注册 67 / 67 张。留出视角 17.57 dB PSNR、0.4819 SSIM，含 90 帧环绕视频 |
+
+## 第二轮优化
+
+| 任务 | 实测对照 | 代码和报告 |
+|---|---|---|
+| CIFAR-100 SimCLR | 官方测试 Top-1 从第一轮最好的 30.43% 提升至 **39.47%** | [训练、对照与验收](03-self-supervised-and-transformer/cifar100-self-vs-supervised/reproduction/optimization/) |

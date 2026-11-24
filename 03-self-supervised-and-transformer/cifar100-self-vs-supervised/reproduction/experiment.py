@@ -33,10 +33,20 @@ def write_json(path, value):
     temporary.replace(path)
 
 
-def save_weights(path, model, **configuration):
+def fold_probe_standardization(weights, mean, scale):
+    """Represent a linear head fitted on standardized features in the original coordinates."""
+    raw_weight = weights["head.weight"] / scale
+    weights["head.bias"] = weights["head.bias"] - raw_weight @ mean
+    weights["head.weight"] = raw_weight
+
+
+def save_weights(path, model, *, probe_stats=None, **configuration):
     temporary = path.with_suffix(".tmp")
-    torch.save({**configuration, "weights": {key: value.detach().cpu() for key, value in model.state_dict().items()}},
-               temporary)
+    weights = {key: value.detach().cpu() for key, value in model.state_dict().items()}
+    if probe_stats is not None:
+        mean, scale = (tensor.detach().cpu() for tensor in probe_stats)
+        fold_probe_standardization(weights, mean, scale)
+    torch.save({**configuration, "weights": weights}, temporary)
     temporary.replace(path)
 
 
@@ -55,10 +65,22 @@ def pretrain(args, train, split, device):
     subset = np.random.default_rng(args.seed + 1).permutation(len(train.targets))[:size]
     np.save(args.out / "pretrain-indices.npy", split["train"][subset], allow_pickle=False)
     model = SimCLR().to(device)
+    initial_steps = 0
+    if args.initialize_from:
+        source = torch.load(args.initialize_from, map_location="cpu", weights_only=True)
+        expected = {"variant": args.variant, "temperature": temperature, "size": args.size,
+                    "seed": args.seed, "samples": size}
+        if any(source[key] != value for key, value in expected.items()):
+            raise ValueError("Initialization checkpoint disagrees with the pretraining configuration")
+        source_ids = args.initialize_from.parent / "pretrain-indices.npy"
+        if source_ids.exists() and not np.array_equal(np.load(source_ids), split["train"][subset]):
+            raise ValueError("Initialization checkpoint uses a different pretraining image pool")
+        initial_steps = source.get("total_pretrain_steps", source["steps"])
+        model.load_state_dict(source["weights"], strict=True)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=0.0001)
     schedule = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, args.steps, eta_min=args.lr * 0.02)
-    shuffle = torch.Generator().manual_seed(args.seed + 2)
-    view_rng = torch.Generator().manual_seed(args.seed + 3)
+    shuffle = torch.Generator().manual_seed(args.seed + 2 + initial_steps)
+    view_rng = torch.Generator().manual_seed(args.seed + 3 + initial_steps)
     fields = ("step", "learning_rate", "ntxent", "pair_top1")
     progress = 0
     started = time.perf_counter()
@@ -104,10 +126,12 @@ def pretrain(args, train, split, device):
                 if progress == args.steps:
                     break
     save_weights(args.out / "pretrained.pt", model, variant=args.variant, size=args.size,
-                 seed=args.seed, steps=args.steps, temperature=temperature, samples=size)
+                 seed=args.seed, steps=args.steps, temperature=temperature, samples=size,
+                 initial_steps=initial_steps, total_pretrain_steps=initial_steps + args.steps)
     write_json(args.out / "run.json", {
         **model_context(args, device), "variant": args.variant, "pretrain_samples": size,
         "temperature": temperature, "steps": progress, "lr": args.lr, "optimizer": "AdamW",
+        "initial_steps": initial_steps, "total_pretrain_steps": initial_steps + progress,
         "weight_decay": 0.0001, "seconds": time.perf_counter() - started,
         "backbone_digest": fingerprint(model.backbone),
     })
@@ -179,9 +203,16 @@ def classifier_fit(args, train, validation, device):
     before = fingerprint(backbone) if frozen else None
     rng = torch.Generator().manual_seed(args.seed + 5)
     aug = torch.Generator().manual_seed(args.seed + 6)
+    probe_stats = None
     if frozen:
         train_vectors = freeze_features(backbone, train, args.size, args.batch)
         validation_vectors = freeze_features(backbone, validation, args.size, args.batch)
+        if args.standardize_probe:
+            variance, mean = torch.var_mean(train_vectors, dim=0, correction=0)
+            scale = variance.sqrt().clamp_min(1e-4)
+            train_vectors = (train_vectors - mean) / scale
+            validation_vectors = (validation_vectors - mean) / scale
+            probe_stats = (mean, scale)
 
         def training_batches():
             return feature_batches(train_vectors, train.targets, args.batch, rng)
@@ -235,7 +266,8 @@ def classifier_fit(args, train, validation, device):
             logs.flush()
             if best is None or select(record) > select(best):
                 best = record
-                save_weights(args.out / "best.pt", classifier, source=args.source, size=args.size, epoch=epoch)
+                save_weights(args.out / "best.pt", classifier, probe_stats=probe_stats,
+                             source=args.source, size=args.size, epoch=epoch)
             schedule.step()
             print(f"{args.source:13s} {epoch:02d}/{args.epochs} "
                   f"val CE {record['val_loss']:.4f} top1 {record['val_accuracy']:.2%} "
@@ -249,6 +281,7 @@ def classifier_fit(args, train, validation, device):
         "n_train": len(train.targets), "n_validation": len(validation.targets),
         "trainable_parameters": sum(p.numel() for p in fitted.parameters() if p.requires_grad),
         "frozen_fingerprint_before": before, "frozen_fingerprint_after": after,
+        "standardized_probe": probe_stats is not None,
         "best": best, "seconds": time.perf_counter() - started,
     })
 
@@ -275,11 +308,13 @@ def main():
     ssl.add_argument("--variant", choices=PRETRAIN, required=True)
     ssl.add_argument("--steps", type=int, default=1200)
     ssl.add_argument("--lr", type=float, default=0.001)
+    ssl.add_argument("--initialize-from", type=Path, help="Warm-start from a matching encoder and projector")
     fit = commands.add_parser("train")
     fit.add_argument("--source", choices=("imagenet", "scratch", *(f"simclr_{key}" for key in PRETRAIN)), required=True)
     fit.add_argument("--pretrained", type=Path)
     fit.add_argument("--epochs", type=int, default=18)
     fit.add_argument("--lr", type=float)
+    fit.add_argument("--standardize-probe", action="store_true", help="Standardize frozen features using training statistics")
     for command in (ssl, fit):
         command.add_argument("--out", type=Path, required=True)
         command.add_argument("--size", type=int, choices=(32, 64), default=64)
@@ -297,6 +332,8 @@ def main():
     if args.command == "test":
         test(args, device)
         return
+    if args.command == "train" and args.source == "scratch" and args.standardize_probe:
+        parser.error("Feature standardization applies only to frozen linear probes")
     if args.command == "train" and args.lr is None:
         args.lr = 0.001 if args.source == "scratch" else 0.004
     if not (0 < args.lr < float("inf")) or args.seed < 0 or getattr(args, "steps", 1) < 1 or getattr(args, "epochs", 1) < 1:

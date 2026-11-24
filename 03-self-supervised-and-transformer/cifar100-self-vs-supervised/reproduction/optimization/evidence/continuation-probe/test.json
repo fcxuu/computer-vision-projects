@@ -1,0 +1,11 @@
+{
+  "loss": 2.4322548828125,
+  "accuracy": 0.3947,
+  "top5": 0.676,
+  "correct": 3947,
+  "top5_correct": 6760,
+  "samples": 10000,
+  "source": "simclr_45k",
+  "epoch": 58,
+  "size": 64
+}
