@@ -1,0 +1,11 @@
+{
+  "loss": 1.3379787109375,
+  "accuracy": 0.6327,
+  "top5": 0.8782,
+  "correct": 6327,
+  "top5_correct": 8782,
+  "samples": 10000,
+  "variant": "cnn",
+  "setting": "adamw_1e-3",
+  "epoch": 37
+}
