@@ -1,0 +1,103 @@
+{
+  "project_commit": "87df4cbe8de15106c96caa2fba097012b6153138",
+  "submitted_sha256": "3ce4ce11e575f123f1a78a7d46ec7eee8d00597a1098a8fefcd6cf28f0cee479",
+  "kaggle_start_utc": "2026-11-24T16:06:43.997000Z",
+  "gpu_names": [
+    "Tesla T4",
+    "Tesla T4"
+  ],
+  "peak_bytes_per_gpu": [
+    463808512,
+    462759936
+  ],
+  "elapsed_to_test_seconds": 653.042954844,
+  "duration_epoch_first_to_last_seconds": 426.33224779299996,
+  "epochs": [
+    {
+      "epoch": 1,
+      "console_seconds": 166.021569889,
+      "peak_bytes_per_gpu": [
+        462756864,
+        462756864
+      ]
+    },
+    {
+      "epoch": 2,
+      "console_seconds": 227.466117225,
+      "peak_bytes_per_gpu": [
+        463807488,
+        462759936
+      ]
+    },
+    {
+      "epoch": 3,
+      "console_seconds": 289.007251469,
+      "peak_bytes_per_gpu": [
+        463807488,
+        462759936
+      ]
+    },
+    {
+      "epoch": 4,
+      "console_seconds": 350.066960681,
+      "peak_bytes_per_gpu": [
+        463807488,
+        462759936
+      ]
+    },
+    {
+      "epoch": 5,
+      "console_seconds": 410.999855721,
+      "peak_bytes_per_gpu": [
+        463807488,
+        462759936
+      ]
+    },
+    {
+      "epoch": 6,
+      "console_seconds": 471.543147577,
+      "peak_bytes_per_gpu": [
+        463807488,
+        462759936
+      ]
+    },
+    {
+      "epoch": 7,
+      "console_seconds": 532.042478176,
+      "peak_bytes_per_gpu": [
+        463807488,
+        462759936
+      ]
+    },
+    {
+      "epoch": 8,
+      "console_seconds": 592.353817682,
+      "peak_bytes_per_gpu": [
+        463808512,
+        462759936
+      ]
+    }
+  ],
+  "dataset_sizes": {
+    "train": 2501,
+    "val": 2510,
+    "test": 4952
+  },
+  "training": {
+    "image_size": 320,
+    "world_size": 2,
+    "per_device_batch": 8,
+    "nominal_global_batch": 16,
+    "epochs": 8,
+    "seed": 2020,
+    "initialization": "TorchVision COCO",
+    "horizontal_flip_training": false,
+    "optimizer": "SGD",
+    "lr": 0.003,
+    "momentum": 0.9,
+    "weight_decay": 0.0001,
+    "schedule": "cosine",
+    "eta_min": 0.00015
+  },
+  "selection": "First epoch with highest validation mAP50"
+}

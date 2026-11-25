@@ -23,3 +23,4 @@
 | CIFAR-100 CNN 与 ViT | 相同 CutMix 设置延长至 40 轮，CNN 测试 Top-1 59.09% → **63.27%**，ViT 46.20% → **51.26%** | [训练、对照与报告](03-self-supervised-and-transformer/cifar100-cnn-vs-transformer/reproduction/optimization/) |
 | CUB-200-2011 鸟类识别 | 同一划分的测试 Top-1 **60.77% → 68.26%**，宏平均召回率 61.10% → 68.51% | [训练、对照与报告](02-object-detection/voc-faster-rcnn-yolov3/reproduction/cub/optimization/) |
 | VOC2007 Faster R-CNN 短测 | 混合 MPS／CPU 路径数值稳定，两轮步耗时中位数均高于纯 CPU，正式训练暂缓 | [短测方法、代码与原始计时](02-object-detection/voc-faster-rcnn-yolov3/reproduction/voc/optimization/) |
+| VOC2007 Faster R-CNN 云端优化 | 双 T4 训练后官方测试 mAP50 从 63.05% 提升至 **69.91%**，本机回载逐图复算为 **69.91%** | [实际提交代码、验证选型和报告](02-object-detection/voc-faster-rcnn-yolov3/reproduction/voc/optimization/cloud/) |
