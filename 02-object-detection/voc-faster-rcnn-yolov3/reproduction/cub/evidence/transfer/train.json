@@ -1,0 +1,32 @@
+{
+  "trial": "transfer",
+  "initialization": "imagenet",
+  "body_lr": 0.0002,
+  "head_lr": 0.002,
+  "warmup": 1,
+  "optimizer": "AdamW",
+  "weight_decay": 0.0001,
+  "epochs": 16,
+  "batch": 48,
+  "seed": 2020,
+  "image_size": 160,
+  "num_classes": 200,
+  "n_train": 5095,
+  "n_val": 899,
+  "n_parameters": 11279112,
+  "best": {
+    "epoch": 16,
+    "body_lr": 1.921471959676958e-06,
+    "head_lr": 1.9214719596769575e-05,
+    "frozen_body": 0,
+    "train_loss": 0.018734442070126534,
+    "train_accuracy": 0.9996074438095093,
+    "val_loss": 1.636046888035317,
+    "val_accuracy": 0.5951056729699666,
+    "val_top5_accuracy": 0.8342602892102335
+  },
+  "device": "mps",
+  "torch": "2.9.1",
+  "python": "3.12.10",
+  "seconds": 434.2182996671181
+}

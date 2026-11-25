@@ -1,0 +1,11 @@
+{
+  "loss": 2.0869208984375,
+  "accuracy": 0.514,
+  "top5": 0.8162,
+  "correct": 5140,
+  "top5_correct": 8162,
+  "samples": 10000,
+  "source": "imagenet",
+  "epoch": 17,
+  "size": 64
+}

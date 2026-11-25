@@ -1,0 +1,5 @@
+kernel=2 stride=1 padding=0: max |analytic - numeric| W=1.27e-10, b=9.80e-11, X=1.11e-10
+kernel=(2, 3) stride=1 padding=1: max |analytic - numeric| W=7.72e-10, b=5.32e-10, X=9.81e-10
+kernel=(3, 2) stride=2 padding=0: max |analytic - numeric| W=1.94e-10, b=8.06e-11, X=1.60e-10
+kernel=3 stride=2 padding=2: max |analytic - numeric| W=2.19e-10, b=2.32e-10, X=2.25e-10
+Float32 CNN + Flatten passed for batch sizes 8 and 3

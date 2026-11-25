@@ -1,0 +1,3 @@
+cpu: transformed origins and calibrated unit world rays verified
+mps: transformed origins and calibrated unit world rays verified
+Scene cameras and disjoint splits verified: 50/8/9

@@ -1,0 +1,168 @@
+{
+  "map50": 0.8069599388196019,
+  "per_class": {
+    "aeroplane": {
+      "ap": 0.881330918475664,
+      "positives": 155,
+      "detections": 625,
+      "ignored": 15,
+      "true_positives": 144,
+      "false_positives": 466
+    },
+    "bicycle": {
+      "ap": 0.8725325478266654,
+      "positives": 177,
+      "detections": 727,
+      "ignored": 21,
+      "true_positives": 167,
+      "false_positives": 539
+    },
+    "bird": {
+      "ap": 0.7381727914980175,
+      "positives": 243,
+      "detections": 991,
+      "ignored": 29,
+      "true_positives": 214,
+      "false_positives": 748
+    },
+    "boat": {
+      "ap": 0.7671173162091272,
+      "positives": 150,
+      "detections": 615,
+      "ignored": 18,
+      "true_positives": 136,
+      "false_positives": 461
+    },
+    "bottle": {
+      "ap": 0.6990591477183479,
+      "positives": 252,
+      "detections": 1096,
+      "ignored": 12,
+      "true_positives": 219,
+      "false_positives": 865
+    },
+    "bus": {
+      "ap": 0.8284626331669537,
+      "positives": 114,
+      "detections": 400,
+      "ignored": 14,
+      "true_positives": 106,
+      "false_positives": 280
+    },
+    "car": {
+      "ap": 0.8838647837731411,
+      "positives": 625,
+      "detections": 1729,
+      "ignored": 142,
+      "true_positives": 589,
+      "false_positives": 998
+    },
+    "cat": {
+      "ap": 0.8349377087251745,
+      "positives": 190,
+      "detections": 915,
+      "ignored": 6,
+      "true_positives": 185,
+      "false_positives": 724
+    },
+    "chair": {
+      "ap": 0.748749942518743,
+      "positives": 398,
+      "detections": 1948,
+      "ignored": 163,
+      "true_positives": 360,
+      "false_positives": 1425
+    },
+    "cow": {
+      "ap": 0.8130539471168746,
+      "positives": 123,
+      "detections": 852,
+      "ignored": 35,
+      "true_positives": 120,
+      "false_positives": 697
+    },
+    "diningtable": {
+      "ap": 0.7477408725660976,
+      "positives": 112,
+      "detections": 668,
+      "ignored": 26,
+      "true_positives": 105,
+      "false_positives": 537
+    },
+    "dog": {
+      "ap": 0.8060323028327773,
+      "positives": 257,
+      "detections": 1069,
+      "ignored": 4,
+      "true_positives": 249,
+      "false_positives": 816
+    },
+    "horse": {
+      "ap": 0.8661143206755854,
+      "positives": 180,
+      "detections": 699,
+      "ignored": 9,
+      "true_positives": 175,
+      "false_positives": 515
+    },
+    "motorbike": {
+      "ap": 0.855303123841584,
+      "positives": 172,
+      "detections": 579,
+      "ignored": 15,
+      "true_positives": 166,
+      "false_positives": 398
+    },
+    "person": {
+      "ap": 0.8762460234996325,
+      "positives": 2332,
+      "detections": 6181,
+      "ignored": 263,
+      "true_positives": 2216,
+      "false_positives": 3702
+    },
+    "pottedplant": {
+      "ap": 0.6356940435039788,
+      "positives": 266,
+      "detections": 1192,
+      "ignored": 22,
+      "true_positives": 217,
+      "false_positives": 953
+    },
+    "sheep": {
+      "ap": 0.7636183121177053,
+      "positives": 127,
+      "detections": 591,
+      "ignored": 21,
+      "true_positives": 118,
+      "false_positives": 452
+    },
+    "sofa": {
+      "ap": 0.7841003946359265,
+      "positives": 124,
+      "detections": 727,
+      "ignored": 60,
+      "true_positives": 121,
+      "false_positives": 546
+    },
+    "train": {
+      "ap": 0.9053291536050156,
+      "positives": 152,
+      "detections": 441,
+      "ignored": 10,
+      "true_positives": 146,
+      "false_positives": 285
+    },
+    "tvmonitor": {
+      "ap": 0.8317384920850269,
+      "positives": 158,
+      "detections": 721,
+      "ignored": 8,
+      "true_positives": 150,
+      "false_positives": 563
+    }
+  },
+  "images": 2510,
+  "seconds": 55.70963370800018,
+  "loss": 0.13909372276518925
+}

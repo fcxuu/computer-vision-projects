@@ -1,0 +1,8 @@
+relu   , l2=0.00: max gradient error 3.415e-11
+relu   , l2=0.03: max gradient error 3.731e-11
+sigmoid, l2=0.00: max gradient error 1.790e-11
+sigmoid, l2=0.03: max gradient error 2.357e-11
+tanh   , l2=0.00: max gradient error 4.079e-11
+tanh   , l2=0.03: max gradient error 3.963e-11
+Extreme logits: finite cross-entropy and normalized probabilities
+NPZ round trip preserved logits and activation
